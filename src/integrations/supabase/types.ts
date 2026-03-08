@@ -14,6 +14,57 @@ export type Database = {
   }
   public: {
     Tables: {
+      ab_tests: {
+        Row: {
+          confidence: number | null
+          created_at: string
+          description: string | null
+          id: string
+          metric: string
+          name: string
+          results_json: Json | null
+          sample_size: number | null
+          status: string | null
+          target_model: string | null
+          updated_at: string
+          user_id: string
+          variants: Json
+          winner_variant: number | null
+        }
+        Insert: {
+          confidence?: number | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          metric?: string
+          name: string
+          results_json?: Json | null
+          sample_size?: number | null
+          status?: string | null
+          target_model?: string | null
+          updated_at?: string
+          user_id: string
+          variants?: Json
+          winner_variant?: number | null
+        }
+        Update: {
+          confidence?: number | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          metric?: string
+          name?: string
+          results_json?: Json | null
+          sample_size?: number | null
+          status?: string | null
+          target_model?: string | null
+          updated_at?: string
+          user_id?: string
+          variants?: Json
+          winner_variant?: number | null
+        }
+        Relationships: []
+      }
       api_keys: {
         Row: {
           created_at: string
@@ -79,6 +130,139 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      prompt_versions: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          prompt_id: string
+          settings: Json | null
+          system_prompt: string | null
+          version_num: number
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          prompt_id: string
+          settings?: Json | null
+          system_prompt?: string | null
+          version_num?: number
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          prompt_id?: string
+          settings?: Json | null
+          system_prompt?: string | null
+          version_num?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "prompt_versions_prompt_id_fkey"
+            columns: ["prompt_id"]
+            isOneToOne: false
+            referencedRelation: "prompts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      prompts: {
+        Row: {
+          content: string
+          created_at: string
+          default_model: string | null
+          default_settings: Json | null
+          id: string
+          status: string | null
+          system_prompt: string | null
+          tags: string[] | null
+          title: string
+          updated_at: string
+          user_id: string
+          uses: number | null
+          win_rate: number | null
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          default_model?: string | null
+          default_settings?: Json | null
+          id?: string
+          status?: string | null
+          system_prompt?: string | null
+          tags?: string[] | null
+          title: string
+          updated_at?: string
+          user_id: string
+          uses?: number | null
+          win_rate?: number | null
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          default_model?: string | null
+          default_settings?: Json | null
+          id?: string
+          status?: string | null
+          system_prompt?: string | null
+          tags?: string[] | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+          uses?: number | null
+          win_rate?: number | null
+        }
+        Relationships: []
+      }
+      test_runs: {
+        Row: {
+          created_at: string
+          id: string
+          input_text: string
+          latency: number | null
+          metadata: Json | null
+          output_text: string | null
+          score: number | null
+          test_id: string
+          tokens: number | null
+          variant_index: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          input_text: string
+          latency?: number | null
+          metadata?: Json | null
+          output_text?: string | null
+          score?: number | null
+          test_id: string
+          tokens?: number | null
+          variant_index: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          input_text?: string
+          latency?: number | null
+          metadata?: Json | null
+          output_text?: string | null
+          score?: number | null
+          test_id?: string
+          tokens?: number | null
+          variant_index?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "test_runs_test_id_fkey"
+            columns: ["test_id"]
+            isOneToOne: false
+            referencedRelation: "ab_tests"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       usage_logs: {
         Row: {
