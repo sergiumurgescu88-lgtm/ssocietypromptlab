@@ -37,6 +37,7 @@ const navItems = [
 export function AppSidebar() {
   const { state } = useSidebar();
   const collapsed = state === "collapsed";
+  const { profile } = useAuthStore();
 
   return (
     <Sidebar collapsible="icon">
