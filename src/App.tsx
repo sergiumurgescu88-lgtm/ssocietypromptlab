@@ -3,7 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, lazy, Suspense } from "react";
 import { useAppStore } from "@/stores/app-store";
 import { useAuthStore } from "@/stores/auth-store";
 import { AppLayout } from "@/components/AppLayout";
@@ -11,17 +11,28 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
-import Dashboard from "./pages/Dashboard";
-import Playground from "./pages/Playground";
-import LibraryPage from "./pages/LibraryPage";
-import ABTesting from "./pages/ABTesting";
-import Marketplace from "./pages/Marketplace";
-import Datasets from "./pages/Datasets";
-import Analytics from "./pages/Analytics";
-import SettingsPage from "./pages/SettingsPage";
 import NotFound from "./pages/NotFound";
 
-const queryClient = new QueryClient();
+// Lazy-loaded heavy pages
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const Playground = lazy(() => import("./pages/Playground"));
+const LibraryPage = lazy(() => import("./pages/LibraryPage"));
+const ABTesting = lazy(() => import("./pages/ABTesting"));
+const Marketplace = lazy(() => import("./pages/Marketplace"));
+const Datasets = lazy(() => import("./pages/Datasets"));
+const Analytics = lazy(() => import("./pages/Analytics"));
+const SettingsPage = lazy(() => import("./pages/SettingsPage"));
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 2 * 60 * 1000,
+      gcTime: 5 * 60 * 1000,
+      retry: 2,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 function ThemeApplier() {
   const theme = useAppStore((s) => s.theme);
@@ -49,10 +60,20 @@ function AuthInitializer({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 
+const PageLoader = () => (
+  <div className="flex items-center justify-center h-64">
+    <div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+  </div>
+);
+
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { session } = useAuthStore();
   if (!session) return <Navigate to="/login" replace />;
-  return <AppLayout>{children}</AppLayout>;
+  return (
+    <AppLayout>
+      <Suspense fallback={<PageLoader />}>{children}</Suspense>
+    </AppLayout>
+  );
 }
 
 function PublicRoute({ children }: { children: React.ReactNode }) {
