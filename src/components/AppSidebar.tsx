@@ -81,8 +81,8 @@ export function AppSidebar() {
       <SidebarFooter className="p-4">
         {!collapsed && (
           <div className="gradient-subtle rounded-lg p-3 text-center">
-            <p className="text-xs text-muted-foreground mb-1">Free Plan</p>
-            <p className="text-sm font-semibold text-foreground">50 credits left</p>
+            <p className="text-xs text-muted-foreground mb-1 capitalize">{profile?.plan ?? "free"} Plan</p>
+            <p className="text-sm font-semibold text-foreground">{profile?.credits ?? 0} credits left</p>
           </div>
         )}
       </SidebarFooter>
