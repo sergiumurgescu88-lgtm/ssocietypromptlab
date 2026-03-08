@@ -14,7 +14,102 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      api_keys: {
+        Row: {
+          created_at: string
+          encrypted_key: string
+          id: string
+          label: string | null
+          provider: Database["public"]["Enums"]["api_provider"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          encrypted_key: string
+          id?: string
+          label?: string | null
+          provider: Database["public"]["Enums"]["api_provider"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          encrypted_key?: string
+          id?: string
+          label?: string | null
+          provider?: Database["public"]["Enums"]["api_provider"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          bio: string | null
+          created_at: string
+          credits: number
+          expertise: string[] | null
+          full_name: string | null
+          id: string
+          plan: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          credits?: number
+          expertise?: string[] | null
+          full_name?: string | null
+          id?: string
+          plan?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          credits?: number
+          expertise?: string[] | null
+          full_name?: string | null
+          id?: string
+          plan?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      usage_logs: {
+        Row: {
+          action: string
+          cost: number | null
+          created_at: string
+          id: string
+          model: string | null
+          tokens: number | null
+          user_id: string
+        }
+        Insert: {
+          action: string
+          cost?: number | null
+          created_at?: string
+          id?: string
+          model?: string | null
+          tokens?: number | null
+          user_id: string
+        }
+        Update: {
+          action?: string
+          cost?: number | null
+          created_at?: string
+          id?: string
+          model?: string | null
+          tokens?: number | null
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +118,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      api_provider: "openai" | "gemini" | "mistral" | "deepseek" | "anthropic"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +245,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      api_provider: ["openai", "gemini", "mistral", "deepseek", "anthropic"],
+    },
   },
 } as const
