@@ -1,3 +1,4 @@
+import { useAuthStore } from "@/stores/auth-store";
 import { mockStats, mockPrompts, modelLabels } from "@/lib/mock-data";
 import { FileText, FlaskConical, TrendingUp, Coins, Clock, Star, ArrowUpRight } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,16 +9,23 @@ const iconMap: Record<string, React.ElementType> = {
 };
 
 const Dashboard = () => {
+  const { profile } = useAuthStore();
+  const firstName = profile?.full_name?.split(" ")[0] ?? "there";
+
+  // Override credits stat with real value
+  const stats = mockStats.map((s) =>
+    s.label === "Credits Left" ? { ...s, value: profile?.credits ?? 0 } : s
+  );
+
   return (
     <div className="space-y-6 animate-fade-in">
       <div>
         <h1 className="text-2xl font-bold text-foreground">Dashboard</h1>
-        <p className="text-muted-foreground text-sm">Welcome back, Alex 👋</p>
+        <p className="text-muted-foreground text-sm">Welcome back, {firstName} 👋</p>
       </div>
 
-      {/* Stats Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {mockStats.map((stat) => {
+        {stats.map((stat) => {
           const Icon = iconMap[stat.icon] || FileText;
           const isPositive = (stat.change ?? 0) >= 0;
           return (
@@ -42,7 +50,6 @@ const Dashboard = () => {
         })}
       </div>
 
-      {/* Recent Prompts */}
       <Card className="border-border">
         <CardHeader className="pb-3">
           <CardTitle className="text-lg">Recent Prompts</CardTitle>
@@ -65,12 +72,9 @@ const Dashboard = () => {
                   </div>
                 </div>
                 <div className="flex items-center gap-2 flex-shrink-0 ml-4">
-                  <Badge variant="secondary" className="text-xs">
-                    {modelLabels[prompt.model]}
-                  </Badge>
+                  <Badge variant="secondary" className="text-xs">{modelLabels[prompt.model]}</Badge>
                   <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                    <Clock className="w-3 h-3" />
-                    <span>v{prompt.versions}</span>
+                    <Clock className="w-3 h-3" /><span>v{prompt.versions}</span>
                   </div>
                 </div>
               </div>

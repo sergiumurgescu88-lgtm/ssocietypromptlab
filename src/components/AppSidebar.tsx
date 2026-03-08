@@ -1,5 +1,5 @@
 import { NavLink } from "@/components/NavLink";
-import { useAppStore } from "@/stores/app-store";
+import { useAuthStore } from "@/stores/auth-store";
 import {
   LayoutDashboard,
   Play,
@@ -9,7 +9,6 @@ import {
   Database,
   Settings,
   Sparkles,
-  X,
 } from "lucide-react";
 import {
   Sidebar,
@@ -38,6 +37,7 @@ const navItems = [
 export function AppSidebar() {
   const { state } = useSidebar();
   const collapsed = state === "collapsed";
+  const { profile } = useAuthStore();
 
   return (
     <Sidebar collapsible="icon">
@@ -82,8 +82,8 @@ export function AppSidebar() {
       <SidebarFooter className="p-4">
         {!collapsed && (
           <div className="gradient-subtle rounded-lg p-3 text-center">
-            <p className="text-xs text-muted-foreground mb-1">Free Plan</p>
-            <p className="text-sm font-semibold text-foreground">50 credits left</p>
+            <p className="text-xs text-muted-foreground mb-1 capitalize">{profile?.plan ?? "free"} Plan</p>
+            <p className="text-sm font-semibold text-foreground">{profile?.credits ?? 0} credits left</p>
           </div>
         )}
       </SidebarFooter>
