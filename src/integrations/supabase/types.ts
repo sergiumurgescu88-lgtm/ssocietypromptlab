@@ -65,6 +65,30 @@ export type Database = {
         }
         Relationships: []
       }
+      analytics_events: {
+        Row: {
+          created_at: string
+          event_type: string
+          id: string
+          metadata_json: Json | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          event_type: string
+          id?: string
+          metadata_json?: Json | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          event_type?: string
+          id?: string
+          metadata_json?: Json | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       api_keys: {
         Row: {
           created_at: string
@@ -91,6 +115,71 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      marketplace_prompts: {
+        Row: {
+          category: string | null
+          content_preview: string
+          created_at: string
+          creator_id: string
+          description: string
+          id: string
+          model_compatibility: string[] | null
+          price: number
+          prompt_id: string | null
+          rating: number | null
+          ratings_count: number | null
+          sales_count: number | null
+          status: string | null
+          tags: string[] | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          category?: string | null
+          content_preview?: string
+          created_at?: string
+          creator_id: string
+          description?: string
+          id?: string
+          model_compatibility?: string[] | null
+          price?: number
+          prompt_id?: string | null
+          rating?: number | null
+          ratings_count?: number | null
+          sales_count?: number | null
+          status?: string | null
+          tags?: string[] | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string | null
+          content_preview?: string
+          created_at?: string
+          creator_id?: string
+          description?: string
+          id?: string
+          model_compatibility?: string[] | null
+          price?: number
+          prompt_id?: string | null
+          rating?: number | null
+          ratings_count?: number | null
+          sales_count?: number | null
+          status?: string | null
+          tags?: string[] | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "marketplace_prompts_prompt_id_fkey"
+            columns: ["prompt_id"]
+            isOneToOne: false
+            referencedRelation: "prompts"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       profiles: {
         Row: {
@@ -216,6 +305,82 @@ export type Database = {
           win_rate?: number | null
         }
         Relationships: []
+      }
+      purchases: {
+        Row: {
+          amount: number
+          buyer_id: string
+          creator_payout: number
+          id: string
+          license_key: string
+          marketplace_prompt_id: string
+          platform_fee: number
+          purchased_at: string
+        }
+        Insert: {
+          amount?: number
+          buyer_id: string
+          creator_payout?: number
+          id?: string
+          license_key?: string
+          marketplace_prompt_id: string
+          platform_fee?: number
+          purchased_at?: string
+        }
+        Update: {
+          amount?: number
+          buyer_id?: string
+          creator_payout?: number
+          id?: string
+          license_key?: string
+          marketplace_prompt_id?: string
+          platform_fee?: number
+          purchased_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "purchases_marketplace_prompt_id_fkey"
+            columns: ["marketplace_prompt_id"]
+            isOneToOne: false
+            referencedRelation: "marketplace_prompts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      reviews: {
+        Row: {
+          comment: string | null
+          created_at: string
+          id: string
+          marketplace_prompt_id: string
+          rating: number
+          user_id: string
+        }
+        Insert: {
+          comment?: string | null
+          created_at?: string
+          id?: string
+          marketplace_prompt_id: string
+          rating: number
+          user_id: string
+        }
+        Update: {
+          comment?: string | null
+          created_at?: string
+          id?: string
+          marketplace_prompt_id?: string
+          rating?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reviews_marketplace_prompt_id_fkey"
+            columns: ["marketplace_prompt_id"]
+            isOneToOne: false
+            referencedRelation: "marketplace_prompts"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       test_runs: {
         Row: {
