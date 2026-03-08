@@ -7,6 +7,7 @@ import {
   FlaskConical,
   Store,
   Database,
+  BarChart3,
   Settings,
   Sparkles,
 } from "lucide-react";
