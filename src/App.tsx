@@ -17,6 +17,7 @@ import LibraryPage from "./pages/LibraryPage";
 import ABTesting from "./pages/ABTesting";
 import Marketplace from "./pages/Marketplace";
 import Datasets from "./pages/Datasets";
+import Analytics from "./pages/Analytics";
 import SettingsPage from "./pages/SettingsPage";
 import NotFound from "./pages/NotFound";
 
