@@ -81,11 +81,13 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   },
 
   signInWithGoogle: async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: { redirectTo: window.location.origin + "/dashboard" },
+    const result = await lovable.auth.signInWithOAuth("google", {
+      redirect_uri: window.location.origin + "/dashboard",
     });
-    return { error: error?.message ?? null };
+    if (result && "error" in result && result.error) {
+      return { error: result.error instanceof Error ? result.error.message : String(result.error) };
+    }
+    return { error: null };
   },
 
   signOut: async () => {
