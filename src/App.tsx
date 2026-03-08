@@ -17,6 +17,7 @@ import LibraryPage from "./pages/LibraryPage";
 import ABTesting from "./pages/ABTesting";
 import Marketplace from "./pages/Marketplace";
 import Datasets from "./pages/Datasets";
+import Analytics from "./pages/Analytics";
 import SettingsPage from "./pages/SettingsPage";
 import NotFound from "./pages/NotFound";
 
@@ -80,6 +81,7 @@ const App = () => (
             <Route path="/ab-testing" element={<ProtectedRoute><ABTesting /></ProtectedRoute>} />
             <Route path="/marketplace" element={<ProtectedRoute><Marketplace /></ProtectedRoute>} />
             <Route path="/datasets" element={<ProtectedRoute><Datasets /></ProtectedRoute>} />
+            <Route path="/analytics" element={<ProtectedRoute><Analytics /></ProtectedRoute>} />
             <Route path="/settings" element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
             <Route path="*" element={<NotFound />} />
           </Routes>

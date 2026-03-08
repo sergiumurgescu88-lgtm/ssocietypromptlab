@@ -7,6 +7,7 @@ import {
   FlaskConical,
   Store,
   Database,
+  BarChart3,
   Settings,
   Sparkles,
 } from "lucide-react";
@@ -31,6 +32,7 @@ const navItems = [
   { title: "A/B Testing", url: "/ab-testing", icon: FlaskConical },
   { title: "Marketplace", url: "/marketplace", icon: Store },
   { title: "Datasets", url: "/datasets", icon: Database },
+  { title: "Analytics", url: "/analytics", icon: BarChart3 },
   { title: "Settings", url: "/settings", icon: Settings },
 ];
 
