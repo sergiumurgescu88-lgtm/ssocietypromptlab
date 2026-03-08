@@ -1,5 +1,5 @@
 import { NavLink } from "@/components/NavLink";
-import { useAppStore } from "@/stores/app-store";
+import { useAuthStore } from "@/stores/auth-store";
 import {
   LayoutDashboard,
   Play,
@@ -9,7 +9,6 @@ import {
   Database,
   Settings,
   Sparkles,
-  X,
 } from "lucide-react";
 import {
   Sidebar,
